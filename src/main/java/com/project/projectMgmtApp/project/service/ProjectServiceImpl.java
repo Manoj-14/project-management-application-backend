@@ -1,6 +1,6 @@
-package com.project.projectMgmtApp.Project.service;
+package com.project.projectMgmtApp.project.service;
 
-import com.project.projectMgmtApp.Project.entity.ProjectEntity;
+import com.project.projectMgmtApp.project.entity.ProjectEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.project.projectMgmtApp.Project.controller;
+package com.project.projectMgmtApp.project.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/project")
-public class ProjectController {
+@RequestMapping("/projectManager")
+public class ProjectManager {
 }

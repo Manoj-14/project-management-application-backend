@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.Project.entity;
+package com.project.projectMgmtApp.project.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;

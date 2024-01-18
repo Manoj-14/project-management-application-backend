@@ -1,6 +1,6 @@
-package com.project.projectMgmtApp.Project.repository;
+package com.project.projectMgmtApp.project.repository;
 
-import com.project.projectMgmtApp.Project.entity.ClientEntity;
+import com.project.projectMgmtApp.project.entity.ClientEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

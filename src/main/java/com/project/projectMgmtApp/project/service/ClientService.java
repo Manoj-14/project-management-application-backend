@@ -1,6 +1,6 @@
-package com.project.projectMgmtApp.Project.service;
+package com.project.projectMgmtApp.project.service;
 
-import com.project.projectMgmtApp.Project.entity.ClientEntity;
+import com.project.projectMgmtApp.project.entity.ClientEntity;
 
 import java.util.List;
 

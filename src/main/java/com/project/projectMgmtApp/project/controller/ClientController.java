@@ -1,14 +1,14 @@
-package com.project.projectMgmtApp.Project.controller;
+package com.project.projectMgmtApp.project.controller;
 
-import com.project.projectMgmtApp.Project.entity.ClientEntity;
-import com.project.projectMgmtApp.Project.service.ClientService;
+import com.project.projectMgmtApp.project.entity.ClientEntity;
+import com.project.projectMgmtApp.project.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/clients")
 public class ClientController {
 
     private ClientService clientService;
@@ -18,27 +18,27 @@ public class ClientController {
         this.clientService=clientService;
     }
 
-    @GetMapping("/clients")
+    @GetMapping
     public List<ClientEntity> getClients(){
         return clientService.getAllClients();
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/{id}")
     public ClientEntity getClientById(@PathVariable String id){
         return clientService.getClientById(id);
     }
 
-    @PostMapping("/clients")
+    @PostMapping
     public ClientEntity addClient(@RequestBody ClientEntity clientEntity){
         return clientService.addClient(clientEntity);
     }
 
-    @PutMapping("/clientsUpdate")
+    @PutMapping
     public ClientEntity updateClient(@RequestBody ClientEntity clientEntity){
         return clientService.addClient(clientEntity);
     }
 
-    @DeleteMapping("/clientsDelete/{id}")
+    @DeleteMapping("/{id}")
     public ClientEntity deleteClient(@PathVariable String id){
         return clientService.deleteClient(id);
     }

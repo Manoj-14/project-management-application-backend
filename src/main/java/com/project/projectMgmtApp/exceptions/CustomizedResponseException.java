@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.team.exceptions;
+package com.project.projectMgmtApp.exceptions;
 
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;

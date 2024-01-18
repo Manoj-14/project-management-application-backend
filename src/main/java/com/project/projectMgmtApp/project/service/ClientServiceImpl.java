@@ -1,7 +1,7 @@
-package com.project.projectMgmtApp.Project.service;
+package com.project.projectMgmtApp.project.service;
 
-import com.project.projectMgmtApp.Project.entity.ClientEntity;
-import com.project.projectMgmtApp.Project.repository.ClientRepository;
+import com.project.projectMgmtApp.project.entity.ClientEntity;
+import com.project.projectMgmtApp.project.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

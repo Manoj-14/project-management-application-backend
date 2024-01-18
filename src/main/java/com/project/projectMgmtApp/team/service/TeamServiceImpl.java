@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.team.service;
 
+import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
 import com.project.projectMgmtApp.team.model.Team;
 import com.project.projectMgmtApp.team.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,15 @@ public class TeamServiceImpl implements TeamService{
     }
     public Team createTeam(Team team){
         return teamRepository.save(team);
+    }
+    @Override
+    public Team getTeam(String id) throws TeamNotFoundException {
+        Team team = teamRepository.findById(id).stream().findFirst().orElse(null);
+        if(team != null){
+            return team ;
+        }
+        else {
+            throw new TeamNotFoundException("Team not Found");
+        }
     }
 }

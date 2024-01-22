@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.team.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
@@ -12,7 +13,7 @@ import java.util.Date;
 public class Team {
     @JsonIgnore
     @Id
-    private int id;
+    private String id;
     @NotNull(message = "Task name can't be empty")
     private String task_name;
 
@@ -24,19 +25,33 @@ public class Team {
     private Date planned_start_date;
     @NotNull(message = "Planned end date can't be empty")
     private Date planned_end_date;
-    @NotNull(message = "Actual start time can't be empty")
+//    @NotNull(message = "Actual start time can't be empty")
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime actual_start_time;
-    @NotNull(message = "Actual end time can't be empty")
+//    @NotNull(message = "Actual end time can't be empty")
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime actual_end_time;
 
     public Team() {
     }
 
-    public int getId() {
+    public Team(String id, String task_name, int project_id, int priority, String description, Date planned_start_date, Date planned_end_date, LocalDateTime actual_start_time, LocalDateTime actual_end_time) {
+        this.id = id;
+        this.task_name = task_name;
+        this.project_id = project_id;
+        this.priority = priority;
+        this.description = description;
+        this.planned_start_date = planned_start_date;
+        this.planned_end_date = planned_end_date;
+        this.actual_start_time = actual_start_time;
+        this.actual_end_time = actual_end_time;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

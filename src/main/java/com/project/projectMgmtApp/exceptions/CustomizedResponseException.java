@@ -1,6 +1,6 @@
 package com.project.projectMgmtApp.exceptions;
-
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
+import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,17 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ErrorDetail> handleAllException(Exception ex, WebRequest request) throws Exception{
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(TeamNotFoundException.class)
+    public final ResponseEntity<ErrorDetail> handleTeamNotFoundException(Exception ex,WebRequest request) throws Exception {
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public final ResponseEntity<ErrorDetail> handleAssignValueNotFound(Exception ex, WebRequest request) throws Exception {
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

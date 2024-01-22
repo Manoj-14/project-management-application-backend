@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Assigned {
     @Id
-    private int id;
+    private String id;
     private int employee_id;
     private int role_id ;
     private Team team_id;
@@ -14,18 +14,18 @@ public class Assigned {
     public Assigned() {
     }
 
-    public Assigned(int id, int employee_id, int role_id, Team team_id) {
+    public Assigned(String id, int employee_id, int role_id, Team team_id) {
         this.id = id;
         this.employee_id = employee_id;
         this.role_id = role_id;
         this.team_id = team_id;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

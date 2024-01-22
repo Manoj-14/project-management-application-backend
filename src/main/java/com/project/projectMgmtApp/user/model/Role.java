@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.model.user;
+package com.project.projectMgmtApp.user.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

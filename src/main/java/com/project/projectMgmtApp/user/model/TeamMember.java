@@ -1,6 +1,5 @@
-package com.project.projectMgmtApp.model.user;
+package com.project.projectMgmtApp.user.model;
 
-import com.project.projectMgmtApp.user.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

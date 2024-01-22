@@ -1,5 +1,5 @@
 package com.project.projectMgmtApp.exceptions;
-
+import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
@@ -37,5 +37,20 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),"Total Errors:"+ex.getErrorCount()+" First Error " +ex.getFieldError().getDefaultMessage(),request.getDescription(false));
         return new ResponseEntity<>(errorDetail,HttpStatus.BAD_REQUEST);
+    }
+
+    //Client Not found exception
+    @ExceptionHandler
+    public ResponseEntity<ErrorDetail> handleException(ClientNotFoundException exc){
+
+        //create a StudentErrorResponse
+        ErrorDetail error = new ErrorDetail();
+
+        error.setDetails(String.valueOf(HttpStatus.NOT_FOUND.value()));
+        error.setMessage((exc.getMessage()));
+        error.setTimeStamp(LocalDate.ofEpochDay(System.currentTimeMillis()));
+
+        //return ResponseEntity
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 }

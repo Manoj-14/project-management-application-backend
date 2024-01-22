@@ -14,6 +14,10 @@ public class ErrorDetail {
         this.details = details;
     }
 
+    public ErrorDetail() {
+
+    }
+
     public LocalDate getTimeStamp() {
         return timeStamp;
     }

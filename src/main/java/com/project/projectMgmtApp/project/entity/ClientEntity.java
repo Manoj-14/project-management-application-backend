@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.project.entity;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,8 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ClientEntity {
     @Id
     private String id;
+
+    @NotNull(message = "is required")
     private String c_name;
+
+    @NotNull(message = "is required")
     private String c_address;
+
+    @NotNull(message = "is required")
     private String c_details;
 
     public ClientEntity() {

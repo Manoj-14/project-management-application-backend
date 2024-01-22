@@ -1,5 +1,6 @@
-package com.project.projectMgmtApp.model;
+package com.project.projectMgmtApp.model.user;
 
+import com.project.projectMgmtApp.user.UserAccount;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,17 +9,16 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "team_member")
-public class TeamMember {
+@AllArgsConstructor
+@Document(collection = "employee")
+public class Employee {
 
     @Id
     private String id;
+    private String employeeCode;
+    private String employeeName;
+
     @DBRef
-    private Team teamId;
-    @DBRef
-    private Employee employeeId;
-    @DBRef
-    private Role roleId;
+    private UserAccount userAccountId;
 }

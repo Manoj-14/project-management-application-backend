@@ -1,6 +1,5 @@
 package com.project.projectMgmtApp.team.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document
-public class Team {
+public class Task {
     @JsonIgnore
     @Id
     private String id;
@@ -32,10 +31,10 @@ public class Team {
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime actual_end_time;
 
-    public Team() {
+    public Task() {
     }
 
-    public Team(String id, String task_name, int project_id, int priority, String description, Date planned_start_date, Date planned_end_date, LocalDateTime actual_start_time, LocalDateTime actual_end_time) {
+    public Task(String id, String task_name, int project_id, int priority, String description, Date planned_start_date, Date planned_end_date, LocalDateTime actual_start_time, LocalDateTime actual_end_time) {
         this.id = id;
         this.task_name = task_name;
         this.project_id = project_id;

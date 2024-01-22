@@ -7,18 +7,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Assigned {
     @Id
     private String id;
-    private int employee_id;
-    private int role_id ;
-    private Team team_id;
+    private int employeeId;
+    private int roleId;
+    private Task taskId;
 
     public Assigned() {
     }
 
-    public Assigned(String id, int employee_id, int role_id, Team team_id) {
+    public Assigned(String id, int employee_id, int role_id, Task task_id) {
         this.id = id;
-        this.employee_id = employee_id;
-        this.role_id = role_id;
-        this.team_id = team_id;
+        this.employeeId = employee_id;
+        this.roleId = role_id;
+        this.taskId = task_id;
     }
 
     public String getId() {
@@ -29,11 +29,11 @@ public class Assigned {
         this.id = id;
     }
 
-    public Team getTeam_id() {
-        return team_id;
+    public Task getTeamId() {
+        return taskId;
     }
 
-    public void setTeam_id(Team team_id) {
-        this.team_id = team_id;
+    public void setTeamId(Task taskId) {
+        this.taskId = taskId;
     }
 }

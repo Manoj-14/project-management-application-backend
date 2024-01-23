@@ -1,8 +1,8 @@
-package com.project.projectMgmtApp.team.controller;
+package com.project.projectMgmtApp.task.controller;
 
-import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
-import com.project.projectMgmtApp.team.model.Task;
-import com.project.projectMgmtApp.team.service.TaskService;
+import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.model.Task;
+import com.project.projectMgmtApp.task.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
-package com.project.projectMgmtApp.team.service;
+package com.project.projectMgmtApp.task.service;
 
-import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
-import com.project.projectMgmtApp.team.model.Task;
+import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.model.Task;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

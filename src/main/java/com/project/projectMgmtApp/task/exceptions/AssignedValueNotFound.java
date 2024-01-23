@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.team.exceptions;
+package com.project.projectMgmtApp.task.exceptions;
 
 public class AssignedValueNotFound extends RuntimeException{
     public AssignedValueNotFound(String message){

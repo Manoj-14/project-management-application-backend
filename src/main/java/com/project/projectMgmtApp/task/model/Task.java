@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.team.model;
+package com.project.projectMgmtApp.task.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;

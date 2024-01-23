@@ -1,4 +1,4 @@
-package com.project.projectMgmtApp.team.model;
+package com.project.projectMgmtApp.task.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

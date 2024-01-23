@@ -1,11 +1,11 @@
-package com.project.projectMgmtApp.team.service;
+package com.project.projectMgmtApp.task.service;
 
-import com.project.projectMgmtApp.team.exceptions.AssignedValueNotFound;
-import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
-import com.project.projectMgmtApp.team.model.Assigned;
-import com.project.projectMgmtApp.team.model.Task;
-import com.project.projectMgmtApp.team.repository.AssignedRepository;
-import com.project.projectMgmtApp.team.repository.TaskRepository;
+import com.project.projectMgmtApp.task.exceptions.AssignedValueNotFound;
+import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.model.Assigned;
+import com.project.projectMgmtApp.task.model.Task;
+import com.project.projectMgmtApp.task.repository.AssignedRepository;
+import com.project.projectMgmtApp.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

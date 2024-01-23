@@ -1,6 +1,6 @@
 package com.project.projectMgmtApp.exceptions;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
-import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

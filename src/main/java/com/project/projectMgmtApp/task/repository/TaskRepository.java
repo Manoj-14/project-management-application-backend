@@ -1,6 +1,6 @@
-package com.project.projectMgmtApp.team.repository;
+package com.project.projectMgmtApp.task.repository;
 
-import com.project.projectMgmtApp.team.model.Task;
+import com.project.projectMgmtApp.task.model.Task;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

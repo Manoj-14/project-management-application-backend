@@ -1,6 +1,6 @@
 package com.project.projectMgmtApp.task.service;
 
-import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
 import com.project.projectMgmtApp.task.model.Task;
 import com.project.projectMgmtApp.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,28 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
     @Override
-    public Task getTeam(String id) throws TeamNotFoundException {
+    public Task getTeam(String id) throws TaskNotFoundException {
         Task task = taskRepository.findById(id).stream().findFirst().orElse(null);
         if(task != null){
             return task;
         }
         else {
-            throw new TeamNotFoundException("Team not Found");
+            throw new TaskNotFoundException("Team not Found");
         }
     }
 
     @Override
-    public Task updateTeam(Task task) throws TeamNotFoundException {
+    public Task updateTeam(Task task) throws TaskNotFoundException {
         Task dbTask = taskRepository.findById(task.getId()).stream().findFirst().orElse(null);
         if(dbTask != null) taskRepository.save(task);
-        else throw new TeamNotFoundException("Team not present in database");
+        else throw new TaskNotFoundException("Task not present in database");
         return null;
     }
 
     @Override
-    public void deleteTeam(String id) throws TeamNotFoundException {
+    public void deleteTeam(String id) throws TaskNotFoundException {
         Task task = taskRepository.findById(id).stream().findFirst().orElse(null);
         if( task !=null) taskRepository.deleteById(id);
-        else throw new TeamNotFoundException("Team not found");
+        else throw new TaskNotFoundException("Team not found");
     }
 }

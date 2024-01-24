@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AssignedRepository extends MongoRepository<Assigned,String> {
 
-    List<Assigned> findAllByTeamId(String id);
+    List<Assigned> findAllByTaskId(String id);
+
 }

@@ -1,6 +1,6 @@
 package com.project.projectMgmtApp.task.controller;
 
-import com.project.projectMgmtApp.task.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
 import com.project.projectMgmtApp.task.model.Task;
 import com.project.projectMgmtApp.task.service.TaskService;
 import jakarta.validation.Valid;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("api/teams")
+@RequestMapping("api/task")
 public class TaskController {
     @Autowired
     private TaskService teamService;
@@ -24,7 +24,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createTeam(@Valid @RequestBody Task task) {
+    public ResponseEntity<?> createTeam(@Valid Task task) {
         try{
             Task savedTask = teamService.createTeam(task);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedTask.getId()).toUri();
@@ -39,7 +39,7 @@ public class TaskController {
         try{
             Task task = teamService.getTeam(id);
             return new ResponseEntity<>(task,HttpStatus.OK);
-        }catch (TeamNotFoundException ex){
+        }catch (TaskNotFoundException ex){
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
@@ -55,7 +55,7 @@ public class TaskController {
             Task savedTask = teamService.updateTeam(task);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(task.getId()).toUri();
             return ResponseEntity.created(location).build();
-        }catch (TeamNotFoundException ex){
+        }catch (TaskNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
@@ -65,7 +65,7 @@ public class TaskController {
         try{
             teamService.deleteTeam(id);
             return ResponseEntity.accepted().build();
-        }catch (TeamNotFoundException ex){
+        }catch (TaskNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }

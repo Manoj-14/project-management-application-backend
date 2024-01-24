@@ -1,6 +1,7 @@
 package com.project.projectMgmtApp.User.service;
 
 import com.project.projectMgmtApp.User.model.Employee;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

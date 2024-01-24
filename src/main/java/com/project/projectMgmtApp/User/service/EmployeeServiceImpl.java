@@ -3,10 +3,12 @@ package com.project.projectMgmtApp.User.service;
 import com.project.projectMgmtApp.User.model.Employee;
 import com.project.projectMgmtApp.User.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired

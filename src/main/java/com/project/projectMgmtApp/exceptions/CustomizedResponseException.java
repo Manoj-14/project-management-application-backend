@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.exceptions;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
+import com.project.projectMgmtApp.project.exceptions.ProjectNotFoundException;
 import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDate;
@@ -40,17 +42,30 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     }
 
     //Client Not found exception
-    @ExceptionHandler
-    public ResponseEntity<ErrorDetail> handleException(ClientNotFoundException exc){
-
-        //create a StudentErrorResponse
+    @ExceptionHandler(ClientNotFoundException.class)
+    public final ResponseEntity<ErrorDetail> handleClientNotFoundException(Exception exc,WebRequest request) throws Exception{
         ErrorDetail error = new ErrorDetail();
 
-        error.setDetails(String.valueOf(HttpStatus.NOT_FOUND.value()));
+        error.setDetails(request.getDescription(false));
         error.setMessage((exc.getMessage()));
-        error.setTimeStamp(LocalDate.ofEpochDay(System.currentTimeMillis()));
-
+        error.setTimeStamp(LocalDate.now());
+        System.out.println("Custom Exception"+error);
         //return ResponseEntity
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
+
+    //Project Not found exception
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public final ResponseEntity<ErrorDetail> handleProjectNotFoundException(Exception exc,WebRequest request) throws Exception{
+
+        ErrorDetail error = new ErrorDetail();
+
+        error.setDetails(request.getDescription(false));
+        error.setMessage((exc.getMessage()));
+        error.setTimeStamp(LocalDate.now());
+        System.out.println("Custom Exception"+error);
+        //return ResponseEntity
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
 }

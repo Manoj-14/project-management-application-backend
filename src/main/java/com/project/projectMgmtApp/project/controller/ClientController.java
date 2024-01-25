@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.project.controller;
 
+import ch.qos.logback.core.net.server.Client;
 import com.project.projectMgmtApp.project.entity.ClientEntity;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.project.service.ClientService;
@@ -25,55 +26,41 @@ public class ClientController {
 
     @GetMapping
     public List<ClientEntity> getClients(){
-        return clientService.getAllClients();
+        try{
+            return clientService.getAllClients();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getClientById(@PathVariable String id){
+    public ResponseEntity<?> getClientById(@PathVariable String id) throws Exception{
 
-        try{
             ClientEntity client = clientService.getClientById(id);
             return new ResponseEntity<>(client, HttpStatus.OK);
-        }catch (ClientNotFoundException ex){
-            throw new ClientNotFoundException("Client id not found - "+id);
-        }
     }
 
     @PostMapping
-    public ResponseEntity<?> addClient(@Valid @RequestBody ClientEntity clientEntity){
-        try{
+    public ResponseEntity<?> addClient(@Valid ClientEntity clientEntity){
+
             ClientEntity client= clientService.addClient(clientEntity);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
 
     }
 
     @PutMapping
-    public ResponseEntity<?> updateClient(@RequestBody ClientEntity clientEntity){
+    public ResponseEntity<?> updateClient(@RequestBody ClientEntity clientEntity) throws Exception {
+        ClientEntity client = clientService.updateClient(clientEntity);
+        return new ResponseEntity<>(client,HttpStatus.OK);
 
-
-        try{
-            ClientEntity client = clientService.updateClient(clientEntity);
-            return new ResponseEntity<>(client,HttpStatus.OK);
-        }
-        catch (Exception ex){
-            throw new ClientNotFoundException("Client Id Not Found");
-        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable String id){
-
-        try{
-            clientService.deleteClient(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception ex){
-            throw new ClientNotFoundException("Client Id Not Found");
-        }
+    public ResponseEntity<?> deleteClient(@PathVariable String id) throws Exception{
+        clientService.deleteClient(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.project.projectMgmtApp.exceptions;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
-import com.project.projectMgmtApp.project.exceptions.ProjectNotFoundException;
-import com.project.projectMgmtApp.team.exceptions.TeamNotFoundException;
+import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDate;
@@ -24,7 +22,7 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(TeamNotFoundException.class)
+    @ExceptionHandler(TaskNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleTeamNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -42,30 +40,17 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     }
 
     //Client Not found exception
-    @ExceptionHandler(ClientNotFoundException.class)
-    public final ResponseEntity<ErrorDetail> handleClientNotFoundException(Exception exc,WebRequest request) throws Exception{
+    @ExceptionHandler
+    public ResponseEntity<ErrorDetail> handleException(ClientNotFoundException exc){
+
+        //create a StudentErrorResponse
         ErrorDetail error = new ErrorDetail();
 
-        error.setDetails(request.getDescription(false));
+        error.setDetails(String.valueOf(HttpStatus.NOT_FOUND.value()));
         error.setMessage((exc.getMessage()));
-        error.setTimeStamp(LocalDate.now());
-        System.out.println("Custom Exception"+error);
+        error.setTimeStamp(LocalDate.ofEpochDay(System.currentTimeMillis()));
+
         //return ResponseEntity
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
-
-    //Project Not found exception
-    @ExceptionHandler(ProjectNotFoundException.class)
-    public final ResponseEntity<ErrorDetail> handleProjectNotFoundException(Exception exc,WebRequest request) throws Exception{
-
-        ErrorDetail error = new ErrorDetail();
-
-        error.setDetails(request.getDescription(false));
-        error.setMessage((exc.getMessage()));
-        error.setTimeStamp(LocalDate.now());
-        System.out.println("Custom Exception"+error);
-        //return ResponseEntity
-        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
-    }
-
 }

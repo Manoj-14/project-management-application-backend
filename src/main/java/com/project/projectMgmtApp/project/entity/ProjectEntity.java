@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.project.entity;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,15 +11,19 @@ import java.util.Date;
 public class ProjectEntity {
     @Id
     private String id;
+    @NotNull(message = "is required")
     private String project_name;
+    @NotNull(message = "is required")
     private Date planned_start_date;
+    @NotNull(message = "is required")
     private Date planned_end_date;
-
-
+    @NotNull(message = "is required")
     private Date actual_start_date;
+    @NotNull(message = "is required")
     private Date actual_end_date;
+    @NotNull(message = "is required")
     private String project_description;
-
+    @NotNull(message = "is required")
     @DBRef
     private ClientEntity client_id;
 

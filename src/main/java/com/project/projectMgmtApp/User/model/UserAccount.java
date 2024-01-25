@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,5 +24,9 @@ public class UserAccount {
     private String firstName;
     private String lastName;
     private boolean isProjectManager;
-    private LocalDateTime registrationTime;
+    private LocalDate registrationTime;
+
+    public UserAccount(String id) {
+        this.id = id;
+    }
 }

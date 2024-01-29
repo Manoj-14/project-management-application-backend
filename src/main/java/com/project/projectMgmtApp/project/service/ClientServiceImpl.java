@@ -23,7 +23,6 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientEntity addClient(ClientEntity clientEntity) {
-
             return clientRepository.save(clientEntity);
     }
 
@@ -43,10 +42,11 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientEntity updateClient(ClientEntity client) {
+    public ClientEntity updateClient(ClientEntity client) throws ClientNotFoundException {
         ClientEntity clientEntity = clientRepository.findById(client.getId()).stream().findFirst().orElse(null);
+
         if(clientEntity != null){
-            return  clientRepository.save(clientEntity);
+            return  clientRepository.save(client);
         }else{
             throw new ClientNotFoundException("Client not found");
         }
@@ -58,7 +58,7 @@ public class ClientServiceImpl implements ClientService{
         if(clientEntity != null){
             clientRepository.deleteById(id);
         }else{
-            throw new ClientNotFoundException("Client not found");
+                throw new ClientNotFoundException("Client not found");
         }
 
     }

@@ -6,12 +6,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,15 +25,42 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addProject(Map<String, String> projectEntity){
-        System.out.println(projectEntity);
-        try{
+    public ResponseEntity<?> addProject(@RequestBody Map<String, String> projectEntity){
             ProjectEntity project = projectService.addProject(projectEntity);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(project.getId()).toUri();
             return ResponseEntity.created(location).build();
 
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getProjects(){
+        List<ProjectEntity> project = projectService.getProject();
+        return new ResponseEntity<>(project,HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateProject(@RequestBody Map<String, String> projectEntity){
+        ProjectEntity project = projectService.updateProject(projectEntity);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(project.getId()).toUri();
+        return ResponseEntity.created(location).build();
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProjectById(@PathVariable String id){
+        ProjectEntity project = projectService.getProjectById(id);
+        return ResponseEntity.ok(project);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProject(@PathVariable String id){
+        projectService.deleteProject(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/client/{id}")
+    public ResponseEntity<?> deleteProjectByClientId(@PathVariable String id){
+        List<ProjectEntity> projectEntities = projectService.getProjectByClientId(id);
+        return new ResponseEntity<>(projectEntities,HttpStatus.OK);
     }
 }

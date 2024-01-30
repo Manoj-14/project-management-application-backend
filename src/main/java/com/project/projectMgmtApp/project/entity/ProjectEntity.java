@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.project.entity;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,27 +11,30 @@ import java.util.Date;
 public class ProjectEntity {
     @Id
     private String id;
+    @NotNull(message = "is required")
     private String project_name;
+    @NotNull(message = "is required")
     private Date planned_start_date;
+    @NotNull(message = "is required")
     private Date planned_end_date;
-
-
+    @NotNull(message = "is required")
     private Date actual_start_date;
+    @NotNull(message = "is required")
     private Date actual_end_date;
+    @NotNull(message = "is required")
     private String project_description;
-
+    @NotNull(message = "is required")
     @DBRef
-    private ClientEntity client_id;
+    private ClientEntity clientId;
 
-    public ProjectEntity(String id, String project_name, Date planned_start_date, Date planned_end_date, Date actual_start_date, Date actual_end_date, String project_description, ClientEntity client_id) {
-        this.id = id;
+    public ProjectEntity(String project_name, Date planned_start_date, Date planned_end_date, Date actual_start_date, Date actual_end_date, String project_description, ClientEntity clientId) {
         this.project_name = project_name;
         this.planned_start_date = planned_start_date;
         this.planned_end_date = planned_end_date;
         this.actual_start_date = actual_start_date;
         this.actual_end_date = actual_end_date;
         this.project_description = project_description;
-        this.client_id = client_id;
+        this.clientId = clientId;
     }
 
     public ProjectEntity() {
@@ -92,12 +96,12 @@ public class ProjectEntity {
         this.project_description = project_description;
     }
 
-    public ClientEntity getClient_id() {
-        return client_id;
+    public ClientEntity getClientId() {
+        return clientId;
     }
 
-    public void setClient_id(ClientEntity client_id) {
-        this.client_id = client_id;
+    public void setClientId(ClientEntity clientId) {
+        this.clientId = clientId;
     }
 
     @Override
@@ -110,7 +114,7 @@ public class ProjectEntity {
                 ", actual_start_date=" + actual_start_date +
                 ", actual_end_date=" + actual_end_date +
                 ", project_description='" + project_description + '\'' +
-                ", client_id=" + client_id +
+                ", client_id=" + clientId +
                 '}';
     }
 }

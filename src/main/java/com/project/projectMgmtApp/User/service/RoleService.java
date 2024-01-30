@@ -1,0 +1,17 @@
+package com.project.projectMgmtApp.User.service;
+
+import com.project.projectMgmtApp.User.model.Role;
+import com.project.projectMgmtApp.User.model.UserAccount;
+
+import java.util.List;
+
+public interface RoleService {
+    public void createRole(Role role);
+    public List<Role> getAllRoles();
+
+    public Role getRoleById(String roleId);
+
+    public void updateRole(Role role);
+
+    public void deleteRole(String roleId);
+}

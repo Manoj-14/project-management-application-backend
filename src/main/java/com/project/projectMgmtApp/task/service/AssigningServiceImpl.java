@@ -1,15 +1,19 @@
 package com.project.projectMgmtApp.task.service;
 
 import com.project.projectMgmtApp.User.model.Employee;
+import com.project.projectMgmtApp.User.model.Role;
 import com.project.projectMgmtApp.User.repository.EmployeeRepository;
+import com.project.projectMgmtApp.User.repository.RoleRepository;
+import com.project.projectMgmtApp.task.dto.AssignmentDTO;
 import com.project.projectMgmtApp.task.exceptions.AssignedValueNotFound;
 import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
-import com.project.projectMgmtApp.task.model.Assigned;
+import com.project.projectMgmtApp.task.model.Assignment;
 import com.project.projectMgmtApp.task.model.Task;
 import com.project.projectMgmtApp.task.repository.AssignedRepository;
-import com.project.projectMgmtApp.task.repository.TaskRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -19,53 +23,74 @@ public class AssigningServiceImpl {
     @Autowired
     private AssignedRepository assignedRepository;
     @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private RoleRepository roleRepository;
 
+    private Assignment assignmentDtoToModel(AssignmentDTO assignmentDTO){
+        ModelMapper mapper = new ModelMapper();
+        Assignment assignment = mapper.map(assignmentDTO,Assignment.class);
+        Employee employee = this.getEmployee(assignmentDTO.getEmployeeId());
+        Role role = this.getRole(assignmentDTO.getRoleId());
+        Task task = this.taskService.getTeam(assignmentDTO.getTeamId());
+        assignment.setRole(role);
+        assignment.setEmployee(employee);
+        assignment.setTask(task);
+        return assignment;
+    }
 
-    public void createTaskAssignment(Map<String,String> requestBody)  {
-        Employee employee = this.getEmployee(requestBody.get("employeeId"));
-        Task task = this.getTask(requestBody.get("taskId"));
-        if(employee != null && task != null) {
-            Assigned assigned = new Assigned();
-            assigned.setEmployee(employee);
-            assigned.setTask(task);
-            assigned.setRoleId(requestBody.get("roleId"));
-            assignedRepository.save(assigned);
-        }
-        else if (employee == null){
-            throw new TaskNotFoundException("Employee not found");
-        }
-        else {
-            throw new TaskNotFoundException("Task not found");
-        }
-
+    @Transactional
+    public Assignment createTaskAssignment(AssignmentDTO assignmentDTO)  {
+        Assignment assignment = this.assignmentDtoToModel(assignmentDTO);
+        assignedRepository.save(assignment);
+        return assignment;
     }
 
 //    @Async
     private Employee getEmployee(String id){
-        return employeeRepository.findById(id).stream().findFirst().orElse(null);
+        Employee employee = employeeRepository.findById(id).stream().findFirst().orElse(null);
+        if(employee == null) throw new RuntimeException("Employee Not found");
+        else return employee;
     }
 
-//    @Async
-    private Task getTask(String id){
-        return taskRepository.findById(id).stream().findFirst().orElse(null);
+    private Role getRole(String id){
+        Role role = roleRepository.findById(id).stream().findFirst().orElse(null);
+        if(role == null) throw new RuntimeException("Role not found");
+        else return role;
     }
 
-    public List<Assigned> getAssignmentsByTaskId(String taskId) throws TaskNotFoundException {
-        Task dbTask = taskRepository.findById(taskId).stream().findFirst().orElse(null);
-        if(dbTask == null){
-            throw new TaskNotFoundException("Task not found for given id");
+    public List<Assignment> getAssignmentsByTaskId(String taskId) throws TaskNotFoundException {
+        Task task = taskService.getTeam(taskId);
+        List<Assignment> assignmentLists = assignedRepository.findAllByTaskId(task.getId());
+        return assignmentLists;
+    }
+
+    public Assignment getAssigned(String id) throws AssignedValueNotFound {
+        Assignment dbAssignment = assignedRepository.findById(id).stream().findFirst().orElse(null);
+        if(dbAssignment != null) return dbAssignment;
+        else throw new AssignedValueNotFound("Assigned details not found");
+    }
+
+    @Transactional
+    public Assignment updateAssigned(AssignmentDTO assignmentDTO){
+        if (assignmentDTO.getId() == null){
+            throw new AssignedValueNotFound("Assignment not found");
         }else {
-            List<Assigned> assignedLists = assignedRepository.findAllByTaskId(taskId);
-            return assignedLists;
+            Assignment assignment = this.assignmentDtoToModel(assignmentDTO);
+            assignedRepository.save(assignment);
+            return assignment;
         }
     }
 
-    public Assigned getAssigned(String id) throws AssignedValueNotFound {
-        Assigned dbAssigned = assignedRepository.findById(id).stream().findFirst().orElse(null);
-        if(dbAssigned != null) return dbAssigned;
-        else throw new AssignedValueNotFound("Assigned details not found");
+    @Transactional
+    public void deleteAssignment(String id){
+        Assignment assignment = this.getAssigned(id);
+        assignedRepository.deleteById(id);
+    }
+
+    public Assignment demoUpdate(AssignmentDTO assignmentDTO){
+        return this.assignmentDtoToModel(assignmentDTO);
     }
 }

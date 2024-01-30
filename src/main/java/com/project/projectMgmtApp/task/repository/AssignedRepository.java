@@ -1,12 +1,12 @@
 package com.project.projectMgmtApp.task.repository;
 
-import com.project.projectMgmtApp.task.model.Assigned;
+import com.project.projectMgmtApp.task.model.Assignment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public interface AssignedRepository extends MongoRepository<Assigned,String> {
+public interface AssignedRepository extends MongoRepository<Assignment,String> {
 
-    List<Assigned> findAllByTaskId(String id);
+    List<Assignment> findAllByTaskId(String id);
 
 }

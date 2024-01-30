@@ -1,27 +1,29 @@
 package com.project.projectMgmtApp.task.model;
 
 import com.project.projectMgmtApp.User.model.Employee;
+import com.project.projectMgmtApp.User.model.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Assigned {
+public class Assignment {
     @Id
     private String id;
+    @DBRef
     private Employee employee;
-    private String roleId;
-//    @NotNull(message = "Please enter task id")
+    @DBRef
+    private Role role;
     @DBRef
     private Task task;
 
-    public Assigned() {
+    public Assignment() {
     }
 
-    public Assigned(String id, Employee employee_id, String role_id, Task task_id) {
+    public Assignment(String id, Employee employee_id, Role role_id, Task task_id) {
         this.id = id;
         this.employee = employee_id;
-        this.roleId = role_id;
+        this.role = role_id;
         this.task = task_id;
     }
 
@@ -51,11 +53,11 @@ public class Assigned {
         this.task = task;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

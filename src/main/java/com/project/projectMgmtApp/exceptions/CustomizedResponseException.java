@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.exceptions;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
+import com.project.projectMgmtApp.task.exceptions.AssignedValueNotFound;
 import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,12 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     @ExceptionHandler(TaskNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleTeamNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
-        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(AssignedValueNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleAssignmentNotFoundException(Exception ex,WebRequest request) throws Exception {
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 
     public final ResponseEntity<ErrorDetail> handleAssignValueNotFound(Exception ex, WebRequest request) throws Exception {

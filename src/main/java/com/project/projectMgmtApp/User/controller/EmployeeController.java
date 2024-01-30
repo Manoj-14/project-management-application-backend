@@ -16,7 +16,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createEmployee(@RequestBody Employee employee){
+    public ResponseEntity<?> createEmployee(@RequestBody Employee employee){
         try {
             employeeService.createEmployee(employee);
             return ResponseEntity.status(HttpStatus.CREATED).body("Employee created Successfully");
@@ -30,7 +30,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getAllEmployees(),HttpStatus.OK);
     }
 
-    @PostMapping("/get-user/{id}")
+    @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getEmployeeId(@Valid @PathVariable String id){
         try {
             Employee employee = employeeService.getEmployeeById(id);

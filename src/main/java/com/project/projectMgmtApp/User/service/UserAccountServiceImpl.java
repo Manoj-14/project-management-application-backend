@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.service;
 
+import com.project.projectMgmtApp.User.exceptions.UserAccountNotFound;
 import com.project.projectMgmtApp.User.model.Employee;
 import com.project.projectMgmtApp.User.model.UserAccount;
 import com.project.projectMgmtApp.User.repository.UserAccountRepository;
@@ -31,45 +32,18 @@ public class UserAccountServiceImpl implements UserAccountService{
     }
 
     @Override
-    public void updateUserAccount(UserAccount userAccount) {
-        try{
-            Optional<UserAccount> existingUserAccountOptional = userAccountRepository.findById(userAccount.getId());
-
-            if(existingUserAccountOptional.isPresent()){
-                UserAccount existingUserAccount = existingUserAccountOptional.get();
-                existingUserAccount.setUsername(userAccount.getUsername());
-                existingUserAccount.setFirstName(userAccount.getFirstName());
-                existingUserAccount.setLastName(userAccount.getLastName());
-                existingUserAccount.setEmail(userAccount.getEmail());
-                existingUserAccount.setPassword(userAccount.getPassword());
-                existingUserAccount.setProjectManager(userAccount.isProjectManager());
-                existingUserAccount.setRegistrationTime(userAccount.getRegistrationTime());
-
-                userAccountRepository.save(existingUserAccount);
-            }
-            else {
-                throw new IllegalArgumentException("UserAccount not found with ID :" + userAccount.getId());
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public UserAccount updateUserAccount(UserAccount userAccount) throws UserAccountNotFound {
+        UserAccount dbUserAccount = userAccountRepository.findById(userAccount.getId()).stream().findFirst().orElse(null);
+        if(dbUserAccount != null) userAccountRepository.save(userAccount);
+        else throw new UserAccountNotFound("UserAccount Not present");
+        return null;
     }
 
     @Override
-    public void deleteUserAccount(String userAccountId) {
-        try{
-            int id = Integer.parseInt(userAccountId);
-            Optional<UserAccount> existingUserAccountOptional = userAccountRepository.findById(String.valueOf(id));
-
-            if(existingUserAccountOptional.isPresent()){
-                userAccountRepository.deleteById(String.valueOf(id));
-            } else {
-                throw new IllegalArgumentException("UserAccount not found with ID: " + id);
-            }
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void deleteUserAccount(String userAccountId) throws UserAccountNotFound{
+        UserAccount userAccount = userAccountRepository.findById(userAccountId).stream().findFirst().orElse(null);
+        if(userAccount != null) userAccountRepository.deleteById(userAccountId);
+        else throw new UserAccountNotFound("UserAccount not found");
     }
+
 }

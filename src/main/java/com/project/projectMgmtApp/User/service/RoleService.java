@@ -11,7 +11,7 @@ public interface RoleService {
 
     public Role getRoleById(String roleId);
 
-    public void updateRole(Role role);
+    public Role updateRole(Role role);
 
     public void deleteRole(String roleId);
 }

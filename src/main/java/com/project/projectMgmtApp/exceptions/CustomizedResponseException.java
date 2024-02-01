@@ -1,6 +1,7 @@
 package com.project.projectMgmtApp.exceptions;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.FieldNotFoundException;
+import com.project.projectMgmtApp.project.exceptions.ProjectManagerNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.ProjectNotFoundException;
 import com.project.projectMgmtApp.task.exceptions.TaskNotFoundException;
 import com.project.projectMgmtApp.util.ErrorDetail;
@@ -41,7 +42,6 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(errorDetail,HttpStatus.BAD_REQUEST);
     }
 
-    //Client Not found exception
     @ExceptionHandler(ClientNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleClientNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
@@ -51,9 +51,15 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ErrorDetail> handleProjectNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
-    }@ExceptionHandler(FieldNotFoundException.class)
+    }
+    @ExceptionHandler(FieldNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleFieldNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(ProjectManagerNotFoundException.class)
+    public final ResponseEntity<ErrorDetail> handleProjectManagerNotFoundException(Exception ex,WebRequest request) throws Exception {
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
     }
 }

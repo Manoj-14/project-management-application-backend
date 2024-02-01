@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -25,13 +27,11 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientEntity> getClients(){
-        try{
-            return clientService.getAllClients();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ResponseEntity<?> getClients(){
 
+            List<ClientEntity> clients = clientService.getAllClients();
+
+            return new ResponseEntity<>(clients,HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -43,18 +43,16 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<?> addClient(@Valid ClientEntity clientEntity){
-
             ClientEntity client= clientService.addClient(clientEntity);
-            return new ResponseEntity<>(HttpStatus.OK);
-
-
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+            return ResponseEntity.created(location).build();
     }
 
     @PutMapping
     public ResponseEntity<?> updateClient(@RequestBody ClientEntity clientEntity) throws Exception {
         ClientEntity client = clientService.updateClient(clientEntity);
-        return new ResponseEntity<>(client,HttpStatus.OK);
-
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")

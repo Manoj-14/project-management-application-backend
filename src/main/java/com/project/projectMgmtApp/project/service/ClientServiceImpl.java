@@ -1,15 +1,13 @@
 package com.project.projectMgmtApp.project.service;
 
-import ch.qos.logback.core.net.server.Client;
+
 import com.project.projectMgmtApp.project.entity.ClientEntity;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.project.repository.ClientRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService{
@@ -27,7 +25,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientEntity getClientById(String id) throws ClientNotFoundException {
+    public ClientEntity getClientById(String id) {
         ClientEntity client = clientRepository.findById(id).stream().findFirst().orElse(null);
         if(client != null){
             return  client;
@@ -42,7 +40,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientEntity updateClient(ClientEntity client) throws ClientNotFoundException {
+    public ClientEntity updateClient(ClientEntity client) {
         ClientEntity clientEntity = clientRepository.findById(client.getId()).stream().findFirst().orElse(null);
 
         if(clientEntity != null){
@@ -58,7 +56,7 @@ public class ClientServiceImpl implements ClientService{
         if(clientEntity != null){
             clientRepository.deleteById(id);
         }else{
-                throw new ClientNotFoundException("Client not found");
+            throw new ClientNotFoundException("Client not found");
         }
 
     }

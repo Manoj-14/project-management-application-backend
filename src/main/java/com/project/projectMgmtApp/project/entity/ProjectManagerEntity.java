@@ -1,14 +1,19 @@
 package com.project.projectMgmtApp.project.entity;
 
+import com.project.projectMgmtApp.User.model.UserAccount;
+import org.apache.catalina.User;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "projectManager")
 public class ProjectManagerEntity {
     @Id
     private String id;
-    private ProjectEntity project_id;
-    private int user_account_id;
+    @DBRef
+    private ProjectEntity projectId;
+    @DBRef
+    private UserAccount userAccountId;
 
     public String getId() {
         return id;
@@ -18,26 +23,26 @@ public class ProjectManagerEntity {
         this.id = id;
     }
 
-    public ProjectEntity getProject_id() {
-        return project_id;
+    public ProjectEntity getProjectId() {
+        return projectId;
     }
 
-    public void setProject_id(ProjectEntity project_id) {
-        this.project_id = project_id;
+    public void setProjectId(ProjectEntity projectId) {
+        this.projectId = projectId;
     }
 
-    public int getUser_account_id() {
-        return user_account_id;
+    public UserAccount getUserAccountId() {
+        return userAccountId;
     }
 
-    public void setUser_account_id(int user_account_id) {
-        this.user_account_id = user_account_id;
+    public void setUserAccountId(UserAccount userAccountId) {
+        this.userAccountId = userAccountId;
     }
 
-    public ProjectManagerEntity(String id, ProjectEntity project_id, int user_account_id) {
-        this.id = id;
-        this.project_id = project_id;
-        this.user_account_id = user_account_id;
+    public ProjectManagerEntity( ProjectEntity projectId, UserAccount userAccountId) {
+
+        this.projectId = projectId;
+        this.userAccountId = userAccountId;
     }
 
     public ProjectManagerEntity() {
@@ -47,8 +52,8 @@ public class ProjectManagerEntity {
     public String toString() {
         return "ProjectManagerEntity{" +
                 "id=" + id +
-                ", project_id=" + project_id +
-                ", user_account_id=" + user_account_id +
+                ", project_id=" + projectId +
+                ", user_account_id=" + userAccountId +
                 '}';
     }
 }

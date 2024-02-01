@@ -54,6 +54,6 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     }@ExceptionHandler(FieldNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleFieldNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
-        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 }

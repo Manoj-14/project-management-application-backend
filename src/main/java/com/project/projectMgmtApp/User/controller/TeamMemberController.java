@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.controller;
 
+import com.project.projectMgmtApp.User.exceptions.TeamMemberNotFound;
 import com.project.projectMgmtApp.User.model.TeamMember;
 import com.project.projectMgmtApp.User.service.TeamMemberService;
 import jakarta.validation.Valid;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/team-member")
@@ -38,9 +40,9 @@ public class TeamMemberController {
     public ResponseEntity<?> deleteTeamMember(@PathVariable String id){
         try {
             teamMemberService.deleteTeamMember(id);
-            return new ResponseEntity<>("TeamMember deleted with id:"+id,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.accepted().build();
+        } catch (TeamMemberNotFound e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }

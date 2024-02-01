@@ -12,7 +12,7 @@ public interface EmployeeService {
 
     List<Employee> getAllEmployees();
 
-    public void updateEmployee(Employee employee);
+    public Employee updateEmployee(Employee employee);
 
     public void deleteEmployee(String employeeId);
 }

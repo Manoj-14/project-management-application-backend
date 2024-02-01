@@ -12,7 +12,7 @@ public interface UserAccountService {
 
     public UserAccount getUserAccountById(String userAccountId);
 
-    public void updateUserAccount(UserAccount userAccount);
+    public UserAccount updateUserAccount(UserAccount userAccount);
 
     public void deleteUserAccount(String userAccountId);
 }

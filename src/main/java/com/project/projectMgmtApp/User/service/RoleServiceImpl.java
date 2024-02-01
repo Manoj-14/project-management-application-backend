@@ -1,5 +1,8 @@
 package com.project.projectMgmtApp.User.service;
 
+import com.project.projectMgmtApp.User.exceptions.EmployeeNotFound;
+import com.project.projectMgmtApp.User.exceptions.RoleNotFound;
+import com.project.projectMgmtApp.User.model.Employee;
 import com.project.projectMgmtApp.User.model.Role;
 import com.project.projectMgmtApp.User.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,40 +33,17 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public void updateRole(Role role) {
-        try{
-            Optional<Role> existingRoleOptional = roleRepository.findById(role.getId());
-
-            if(existingRoleOptional.isPresent()){
-                Role existingRole = existingRoleOptional.get();
-                existingRole.setRoleName(role.getRoleName());
-
-                roleRepository.save(existingRole);
-            }
-            else {
-                throw new IllegalArgumentException("Role not found with Id: "+ role.getId());
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public Role updateRole(Role role) throws RoleNotFound {
+        Role dbRole = roleRepository.findById(role.getId()).stream().findFirst().orElse(null);
+        if(dbRole != null) roleRepository.save(role);
+        else throw new RoleNotFound("Role not found");
+        return null;
     }
 
     @Override
-    public void deleteRole(String roleId) {
-        try{
-            int id = Integer.parseInt(roleId);
-            Optional<Role> existingRoleOptional = roleRepository.findById(String.valueOf(id));
-
-            if(existingRoleOptional.isPresent()){
-                roleRepository.deleteById(String.valueOf(id));
-            }
-            else {
-                throw new IllegalArgumentException("Role not Found Id :"+id);
-            }
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void deleteRole(String roleId) throws RoleNotFound{
+        Role role = roleRepository.findById(roleId).stream().findFirst().orElse(null);
+        if(role != null) roleRepository.deleteById(roleId);
+        else throw new RoleNotFound("Role not found");
     }
 }

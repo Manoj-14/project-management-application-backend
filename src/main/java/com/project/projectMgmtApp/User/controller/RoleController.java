@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.controller;
 
+import com.project.projectMgmtApp.User.exceptions.RoleNotFound;
 import com.project.projectMgmtApp.User.model.Role;
 import com.project.projectMgmtApp.User.service.RoleService;
 import jakarta.validation.Valid;
@@ -7,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/roles")
@@ -36,20 +41,23 @@ public class RoleController {
             Role role = roleService.getRoleById(id);
             return new ResponseEntity<>(role,HttpStatus.OK);
         } catch (Exception e){
-            return new ResponseEntity<>("Role Id not found.",HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/update/{id}")
-    public ResponseEntity<?> updateRole(@Valid @PathVariable String id){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateRole(@Valid @RequestBody Role role, @PathVariable String id){
+        if(id==null){
+            throw new NullPointerException("Role id is null.");
+        } else {
+            role.setId(id);
+        }
         try {
-            Role existingRole = roleService.getRoleById(id);
-            if(existingRole==null)
-                return new ResponseEntity<>("Role Not found with id: "+id,HttpStatus.NOT_FOUND);
-            roleService.updateRole(existingRole);
-            return new ResponseEntity<>("Role Updated Successfully.",HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>("Internal Server Error.",HttpStatus.INTERNAL_SERVER_ERROR);
+            Role savedRole = roleService.updateRole(role);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(role.getId()).toUri();
+            return ResponseEntity.created(location).build();
+        } catch (RoleNotFound ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -57,9 +65,9 @@ public class RoleController {
     public ResponseEntity<?> deleteRole(@PathVariable String id){
         try {
             roleService.deleteRole(id);
-            return new ResponseEntity<>("Role deleted with id:"+id,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("Internal Server error",HttpStatus.NOT_FOUND);
+            return ResponseEntity.accepted().build();
+        } catch (RoleNotFound e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
 }

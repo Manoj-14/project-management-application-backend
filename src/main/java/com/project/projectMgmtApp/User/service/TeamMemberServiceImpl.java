@@ -1,6 +1,6 @@
 package com.project.projectMgmtApp.User.service;
 
-import com.project.projectMgmtApp.User.model.Team;
+import com.project.projectMgmtApp.User.exceptions.TeamMemberNotFound;
 import com.project.projectMgmtApp.User.model.TeamMember;
 import com.project.projectMgmtApp.User.repository.TeamMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +26,9 @@ public class TeamMemberServiceImpl implements TeamMemberService{
     }
 
     @Override
-    public void deleteTeamMember(String teamMemberId) {
-        try {
-            int id = Integer.parseInt(teamMemberId);
-            Optional<TeamMember> existingTeamMemeberOptional = teamMemberRepository.findById(String.valueOf(id));
-
-            if(existingTeamMemeberOptional.isPresent()){
-                teamMemberRepository.deleteById(String.valueOf(id));
-            } else {
-                throw  new IllegalArgumentException("TeamMember Not Found id:"+id);
-            }
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void deleteTeamMember(String teamMemberId) throws TeamMemberNotFound {
+        TeamMember teamMember = teamMemberRepository.findById(teamMemberId).stream().findFirst().orElse(null);
+        if(teamMember != null) teamMemberRepository.deleteById(teamMemberId);
+        else throw new TeamMemberNotFound("TeamMember not found");
     }
 }

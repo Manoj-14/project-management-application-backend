@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.service;
 
+import com.project.projectMgmtApp.User.exceptions.TeamNotFound;
 import com.project.projectMgmtApp.User.model.Team;
 import com.project.projectMgmtApp.User.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,38 +31,17 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public void updateTeam(Team team) {
-        try {
-            Optional<Team> existingTeamOptional = teamRepository.findById(team.getId());
-
-            if(existingTeamOptional.isPresent()){
-                Team existingTeam = existingTeamOptional.get();
-                existingTeam.setTeamName(team.getTeamName());
-
-                teamRepository.save(existingTeam);
-            } else {
-                throw new IllegalArgumentException("Team Not Found with ID :"+team.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public Team updateTeam(Team team) throws TeamNotFound{
+        Team dbTeam = teamRepository.findById(team.getId()).stream().findFirst().orElse(null);
+        if(dbTeam != null) teamRepository.save(team);
+        else throw new TeamNotFound("Team not found");
+        return null;
     }
 
     @Override
-    public void deleteTeam(String teamId) {
-        try {
-            int id = Integer.parseInt(teamId);
-            Optional<Team> existingTeamOptional = teamRepository.findById(String.valueOf(id));
-
-            if(existingTeamOptional.isPresent()){
-                teamRepository.deleteById(String.valueOf(id));
-            } else {
-                throw new IllegalArgumentException("Team NOT Found with ID:"+id);
-            }
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void deleteTeam(String teamId) throws TeamNotFound {
+        Team team = teamRepository.findById(teamId).stream().findFirst().orElse(null);
+        if(team != null) teamRepository.deleteById(teamId);
+        else throw new TeamNotFound("Team not found");
     }
 }

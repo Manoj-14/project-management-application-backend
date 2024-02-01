@@ -12,7 +12,7 @@ public interface TeamService {
 
     List<Team> getAllTeams();
 
-    public void updateTeam(Team team);
+    public Team updateTeam(Team team);
 
     public void deleteTeam(String teamId);
 }

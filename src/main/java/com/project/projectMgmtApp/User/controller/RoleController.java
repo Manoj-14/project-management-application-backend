@@ -1,8 +1,6 @@
 package com.project.projectMgmtApp.User.controller;
 
-import com.project.projectMgmtApp.User.exceptions.EmployeeNotFound;
 import com.project.projectMgmtApp.User.exceptions.RoleNotFound;
-import com.project.projectMgmtApp.User.model.Employee;
 import com.project.projectMgmtApp.User.model.Role;
 import com.project.projectMgmtApp.User.service.RoleService;
 import jakarta.validation.Valid;

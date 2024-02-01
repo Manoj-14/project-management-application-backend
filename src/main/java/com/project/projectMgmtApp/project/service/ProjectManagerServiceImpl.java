@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.project.service;
 
+import com.project.projectMgmtApp.User.exceptions.UserAccountNotFound;
 import com.project.projectMgmtApp.User.model.UserAccount;
 import com.project.projectMgmtApp.User.repository.UserAccountRepository;
 import com.project.projectMgmtApp.project.entity.ProjectEntity;
@@ -62,7 +63,7 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
             throw new ProjectNotFoundException("Project not found");
         }
         else if(user == null){
-            throw new ProjectNotFoundException("User not found");
+            throw new UserAccountNotFound("User not found");
         }
         else {
             throw new ProjectNotFoundException("Employee is already in another project as a manager");
@@ -102,7 +103,7 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
             throw new ProjectNotFoundException("Project not found");
         }
         else if(user == null){
-            throw new ProjectNotFoundException("User not found");
+            throw new UserAccountNotFound("User not found");
         }
         else {
             throw new ProjectNotFoundException("Employee is already in another project as a manager");
@@ -160,7 +161,7 @@ public class ProjectManagerServiceImpl implements ProjectManagerService {
             }
         }
         else {
-            throw new ProjectManagerNotFoundException("User not found");
+            throw new UserAccountNotFound("User not found");
         }
     }
 

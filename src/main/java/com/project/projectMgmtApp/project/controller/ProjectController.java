@@ -59,7 +59,7 @@ public class ProjectController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<?> deleteProjectByClientId(@PathVariable String id){
+    public ResponseEntity<?> getProjectByClientId(@PathVariable String id){
         List<ProjectEntity> projectEntities = projectService.getProjectByClientId(id);
         return new ResponseEntity<>(projectEntities,HttpStatus.OK);
     }

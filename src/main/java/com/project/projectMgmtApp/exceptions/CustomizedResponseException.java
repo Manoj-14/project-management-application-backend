@@ -1,5 +1,5 @@
 package com.project.projectMgmtApp.exceptions;
-import com.project.projectMgmtApp.User.exceptions.TeamNotFound;
+import com.project.projectMgmtApp.User.exceptions.*;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.FieldNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.ProjectManagerNotFoundException;
@@ -27,7 +27,7 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public final ResponseEntity<ErrorDetail> handleTeamNotFoundException(Exception ex,WebRequest request) throws Exception {
+    public final ResponseEntity<ErrorDetail> handleTaskNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -62,9 +62,36 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     public final ResponseEntity<ErrorDetail> handleProjectManagerNotFoundException(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
-    } @ExceptionHandler(TeamNotFound.class)
-    public final ResponseEntity<ErrorDetail> handleTeamNotFound(Exception ex,WebRequest request) throws Exception {
+    }
+
+    @ExceptionHandler(EmployeeNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleEmployeeNotFoundException(Exception ex,WebRequest request) throws Exception{
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(UserAccountNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleUserAccountNotFoundException(Exception ex,WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleRoleNotFoundException(Exception ex,WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TeamNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleTeamNotFoundException(Exception ex,WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TeamMemberNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleTeamMemberNotFoundException(Exception ex,WebRequest request) throws Exception{
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+    }
+
 }

@@ -37,12 +37,12 @@ public class UserAccountController {
 
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getUserById(@Valid @PathVariable String id){
-        try{
             UserAccount userAccount = userAccountService.getUserAccountById(id);
-            return new ResponseEntity<>(userAccount,HttpStatus.OK);
-        } catch (UserAccountNotFound e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+            if (userAccount != null) {
+                return new ResponseEntity<>(userAccount, HttpStatus.OK);
+            } else {
+                throw new UserAccountNotFound("User Account Not Found");
+            }
     }
 
     @PutMapping("/update/{id}")

@@ -16,19 +16,28 @@ public class TeamMemberServiceImpl implements TeamMemberService{
 
     @Override
     public void createTeamMember(TeamMember teamMember) {
+
         teamMemberRepository.save(teamMember);
     }
 
     @Override
     public TeamMember getTeamMemberById(String teamMemberId) {
         Optional<TeamMember> optionalTeamMember = teamMemberRepository.findById(String.valueOf(Integer.parseInt(teamMemberId)));
-        return optionalTeamMember.orElse(null);
+        if(optionalTeamMember.get()!= null) {
+            return optionalTeamMember.orElse(null);
+        } else{
+            throw new TeamMemberNotFound("Team Member not found");
+        }
     }
 
     @Override
-    public void deleteTeamMember(String teamMemberId) throws TeamMemberNotFound {
+    public void deleteTeamMember(String teamMemberId) {
         TeamMember teamMember = teamMemberRepository.findById(teamMemberId).stream().findFirst().orElse(null);
-        if(teamMember != null) teamMemberRepository.deleteById(teamMemberId);
-        else throw new TeamMemberNotFound("TeamMember not found");
+
+        if(teamMember!= null) {
+            teamMemberRepository.deleteById(teamMemberId);
+        } else{
+            throw new TeamMemberNotFound("Team Member not found");
+        }
     }
 }

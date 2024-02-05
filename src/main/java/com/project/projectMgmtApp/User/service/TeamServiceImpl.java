@@ -21,8 +21,13 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Team getTeamById(String teamId) {
-        Optional<Team> optionalTeam = teamRepository.findById(String.valueOf(Integer.parseInt(teamId)));
-        return optionalTeam.orElse(null);
+        Team optionalTeam = teamRepository.findById(teamId).stream().findFirst().orElse(null);
+        if(optionalTeam != null){
+            return optionalTeam;
+        }
+        else {
+            throw new TeamNotFound("Team not found");
+        }
     }
 
     @Override
@@ -31,15 +36,14 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Team updateTeam(Team team) throws TeamNotFound{
+    public Team updateTeam(Team team){
         Team dbTeam = teamRepository.findById(team.getId()).stream().findFirst().orElse(null);
-        if(dbTeam != null) teamRepository.save(team);
+        if(dbTeam != null) return teamRepository.save(team);
         else throw new TeamNotFound("Team not found");
-        return null;
     }
 
     @Override
-    public void deleteTeam(String teamId) throws TeamNotFound {
+    public void deleteTeam(String teamId) {
         Team team = teamRepository.findById(teamId).stream().findFirst().orElse(null);
         if(team != null) teamRepository.deleteById(teamId);
         else throw new TeamNotFound("Team not found");

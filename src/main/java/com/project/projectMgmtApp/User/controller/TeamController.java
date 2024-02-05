@@ -21,13 +21,11 @@ public class TeamController {
     private TeamService teamService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTeam(@RequestBody Team team){
-        try {
+    public ResponseEntity<?> createTeam(@Valid @RequestBody Team team){
+
             teamService.createTeam(team);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Team created Successfully");
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating team");
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
     }
 
     @GetMapping("/get-all-teams")
@@ -36,13 +34,11 @@ public class TeamController {
     }
 
     @GetMapping("/get-team/{id}")
-    public ResponseEntity<?> getTeamById(@Valid @PathVariable String id){
-        try {
+    public ResponseEntity<?> getTeamById(@PathVariable String id){
+
             Team team = teamService.getTeamById(id);
             return new ResponseEntity<>(team,HttpStatus.OK);
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 
     @PostMapping("/update/{id}")
@@ -52,22 +48,18 @@ public class TeamController {
         } else {
             team.setId(id);
         }
-        try {
+
             Team savedTeam = teamService.updateTeam(team);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(team.getId()).toUri();
             return ResponseEntity.created(location).build();
-        } catch (TeamNotFound ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable String id){
-        try {
+
             teamService.deleteTeam(id);
             return ResponseEntity.accepted().build();
-        } catch (TeamNotFound e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 }

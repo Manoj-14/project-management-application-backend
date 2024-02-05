@@ -1,4 +1,5 @@
 package com.project.projectMgmtApp.exceptions;
+import com.project.projectMgmtApp.User.exceptions.TeamNotFound;
 import com.project.projectMgmtApp.project.exceptions.ClientNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.FieldNotFoundException;
 import com.project.projectMgmtApp.project.exceptions.ProjectManagerNotFoundException;
@@ -59,6 +60,10 @@ public class CustomizedResponseException extends ResponseEntityExceptionHandler 
     }
     @ExceptionHandler(ProjectManagerNotFoundException.class)
     public final ResponseEntity<ErrorDetail> handleProjectManagerNotFoundException(Exception ex,WebRequest request) throws Exception {
+        ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
+    } @ExceptionHandler(TeamNotFound.class)
+    public final ResponseEntity<ErrorDetail> handleTeamNotFound(Exception ex,WebRequest request) throws Exception {
         ErrorDetail errorDetail = new ErrorDetail(LocalDate.now(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<ErrorDetail>(errorDetail, HttpStatus.NOT_FOUND);
     }

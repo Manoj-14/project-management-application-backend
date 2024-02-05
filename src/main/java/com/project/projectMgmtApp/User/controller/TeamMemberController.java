@@ -18,31 +18,25 @@ public class TeamMemberController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createTeamMember(@RequestBody TeamMember teamMember){
-        try {
+
             teamMemberService.createTeamMember(teamMember);
-            return ResponseEntity.status(HttpStatus.CREATED).body("TeamMember Created.");
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating TeamMember.");
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
     }
 
     @GetMapping("/get-team-member/{id}")
     public ResponseEntity<?> getTeamMemberById(@Valid @PathVariable String id){
-        try {
+
             TeamMember teamMember = teamMemberService.getTeamMemberById(id);
             return new ResponseEntity<>(teamMember,HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("TeamMemberId Not Found", HttpStatus.NOT_FOUND);
-        }
+
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTeamMember(@PathVariable String id){
-        try {
+
             teamMemberService.deleteTeamMember(id);
             return ResponseEntity.accepted().build();
-        } catch (TeamMemberNotFound e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 }

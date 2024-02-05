@@ -27,7 +27,7 @@ public class UserAccountServiceImpl implements UserAccountService{
 
     @Override
     public UserAccount getUserAccountById(String userAccountId) {
-        Optional<UserAccount> optionalUserAccount = userAccountRepository.findById(String.valueOf(Integer.parseInt(userAccountId)));
+        Optional<UserAccount> optionalUserAccount = userAccountRepository.findById(userAccountId);
         return optionalUserAccount.orElse(null);
     }
 

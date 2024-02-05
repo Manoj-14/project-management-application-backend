@@ -40,11 +40,11 @@ public class EmployeeController {
 
     @GetMapping("/get-user/{id}")
     public ResponseEntity<?> getEmployeeId(@Valid @PathVariable String id){
-        try {
-            Employee employee = employeeService.getEmployeeById(id);
+        Employee employee = employeeService.getEmployeeById(id);
+        if (employee != null) {
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else {
+            throw new EmployeeNotFound("Employee Not Found");
         }
     }
 

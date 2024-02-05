@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee getEmployeeById(String employeeId) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(String.valueOf(Integer.parseInt(employeeId)));
+        Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
         return optionalEmployee.orElse(null);
     }
 

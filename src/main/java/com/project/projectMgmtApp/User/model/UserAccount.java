@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,19 @@ public class UserAccount {
     @Id
     private String id;
 
+    @NotNull(message = "is required")
     private String username;
+    @NotNull(message = "is required")
     private String password;
+    @NotNull(message = "is required")
     private String email;
+    @NotNull(message = "is required")
     private String firstName;
+    @NotNull(message = "is required")
     private String lastName;
+    @NotNull(message = "is required")
     private boolean isProjectManager;
+    @NotNull(message = "is required")
     private LocalDate registrationTime;
 
     public UserAccount(String id) {

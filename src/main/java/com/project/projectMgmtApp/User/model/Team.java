@@ -15,6 +15,6 @@ public class Team {
     @Id
     private String id;
 
-    @NotNull
+    @NotNull(message = "is required")
     private String teamName;
 }

@@ -14,26 +14,28 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/api/teams")
 public class TeamController {
 
     @Autowired
     private TeamService teamService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createTeam(@Valid @RequestBody Team team){
 
-            teamService.createTeam(team);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+        Team teams =  teamService.createTeam(team);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(teams.getId()).toUri();
+        return ResponseEntity.created(location).build();
+
 
     }
 
-    @GetMapping("/get-all-teams")
+    @GetMapping
     public ResponseEntity<?> getAllTeams(){
         return new ResponseEntity<>(teamService.getAllTeams(),HttpStatus.OK);
     }
 
-    @GetMapping("/get-team/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getTeamById(@PathVariable String id){
 
             Team team = teamService.getTeamById(id);
@@ -41,7 +43,7 @@ public class TeamController {
 
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateTeam(@Valid @RequestBody Team team, @PathVariable String id){
         if(id==null){
             throw new NullPointerException("Team id is null.");
@@ -55,7 +57,7 @@ public class TeamController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable String id){
 
             teamService.deleteTeam(id);

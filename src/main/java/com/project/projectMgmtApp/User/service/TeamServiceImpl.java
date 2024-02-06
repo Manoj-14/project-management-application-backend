@@ -15,8 +15,8 @@ public class TeamServiceImpl implements TeamService{
     @Autowired
     private TeamRepository teamRepository;
     @Override
-    public void createTeam(Team team) {
-        teamRepository.save(team);
+    public Team createTeam(Team team) {
+       return teamRepository.save(team);
     }
 
     @Override

@@ -21,9 +21,9 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Team getTeamById(String teamId) {
-        Team optionalTeam = teamRepository.findById(teamId).stream().findFirst().orElse(null);
-        if(optionalTeam != null){
-            return optionalTeam;
+        Team team = teamRepository.findById(teamId).stream().findFirst().orElse(null);
+        if(team != null){
+            return team;
         }
         else {
             throw new TeamNotFound("Team not found");

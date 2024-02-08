@@ -1,5 +1,6 @@
 package com.project.projectMgmtApp.User.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,12 @@ public class Employee {
 
     @Id
     private String id;
+    @NotNull(message = "is required")
     private String employeeCode;
+    @NotNull(message = "is required")
     private String employeeName;
 
+    @NotNull(message = "is required")
     @DBRef
     private UserAccount userAccountId;
 }

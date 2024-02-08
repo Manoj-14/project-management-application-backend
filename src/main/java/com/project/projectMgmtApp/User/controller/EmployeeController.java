@@ -17,61 +17,52 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createEmployee(@RequestBody Employee employee){
-        try {
+    @PostMapping
+    public ResponseEntity<?> createEmployee(@Valid @RequestBody Employee employee){
+
             employeeService.createEmployee(employee);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Employee created Successfully");
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating employee");
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+
     }
 
-    @GetMapping("/get-all-employees")
+    @GetMapping
     public ResponseEntity<List<Employee>> getEmployees(){
         return new ResponseEntity<>(employeeService.getAllEmployees(),HttpStatus.OK);
     }
 
-    @GetMapping("/get-user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeId(@Valid @PathVariable String id){
         Employee employee = employeeService.getEmployeeById(id);
-        if (employee != null) {
+
             return new ResponseEntity<>(employee, HttpStatus.OK);
-        } else {
-            throw new EmployeeNotFound("Employee Not Found");
-        }
+
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateUserAccount(@Valid @RequestBody Employee employee, @PathVariable String id){
         if(id==null){
             throw new NullPointerException("Employee id is null.");
         } else {
             employee.setId(id);
         }
-        try {
             Employee savedEmployee = employeeService.updateEmployee(employee);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(employee.getId()).toUri();
             return ResponseEntity.created(location).build();
-        } catch (EmployeeNotFound ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable String id){
-        try{
+
             employeeService.deleteEmployee(id);
             return ResponseEntity.accepted().build();
-        } catch (EmployeeNotFound e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
     }
 
 }

@@ -17,8 +17,8 @@ public class RoleServiceImpl implements RoleService{
     @Autowired
     private RoleRepository roleRepository;
     @Override
-    public void createRole(Role role) {
-        roleRepository.save(role);
+    public Role createRole(Role role) {
+       return roleRepository.save(role);
     }
 
     @Override
@@ -28,16 +28,20 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public Role getRoleById(String roleId) {
-        Optional<Role> optionalRole = roleRepository.findById(String.valueOf(Integer.parseInt(roleId)));
-        return optionalRole.orElse(null);
+        Role role = roleRepository.findById(roleId).stream().findFirst().orElse(null);
+        if(role!=null){
+            return role;
+        }
+        else {
+            throw new RoleNotFound("Role not found");
+        }
     }
 
     @Override
     public Role updateRole(Role role) throws RoleNotFound {
         Role dbRole = roleRepository.findById(role.getId()).stream().findFirst().orElse(null);
-        if(dbRole != null) roleRepository.save(role);
+        if(dbRole != null) return roleRepository.save(role);
         else throw new RoleNotFound("Role not found");
-        return null;
     }
 
     @Override

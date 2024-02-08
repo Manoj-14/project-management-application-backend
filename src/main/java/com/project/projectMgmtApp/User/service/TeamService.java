@@ -6,7 +6,7 @@ import com.project.projectMgmtApp.User.model.Team;
 import java.util.List;
 
 public interface TeamService {
-    public void createTeam(Team team);
+    public Team createTeam(Team team);
 
     public Team getTeamById(String teamId);
 
